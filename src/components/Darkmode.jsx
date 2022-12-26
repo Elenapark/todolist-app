@@ -1,22 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styles from "./Darkmode.module.css";
 import { BsMoonFill, BsSun } from "react-icons/bs";
+import { ThemeContext } from "../context/darkmode_context";
 
-export default function Darkmode({ isDark, setIsDark }) {
-  const handleClick = () => {
-    if (isDark) {
-      setIsDark(false);
-    } else {
-      setIsDark(true);
-    }
-  };
+export default function Darkmode() {
+  const { darkmode, toggleDarkMode } = useContext(ThemeContext);
   return (
-    <div className={styles["darkmode-container"]}>
-      {isDark ? (
-        <BsSun onClick={handleClick} />
-      ) : (
-        <BsMoonFill onClick={handleClick} />
-      )}
+    <div
+      className={styles["darkmode-container"]}
+      onClick={() => toggleDarkMode()}
+    >
+      {darkmode ? <BsSun /> : <BsMoonFill />}
     </div>
   );
 }

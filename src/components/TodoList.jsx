@@ -1,39 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./TodoList.module.css";
-import { BsTrash2 } from "react-icons/bs";
+import { ThemeContext } from "../context/darkmode_context";
+import EachTodo from "./EachTodo";
 
 export default function TodoList({ todoList, updateTodo, deleteTodo }) {
+  const { darkMode } = useContext(ThemeContext);
+
+  if (todoList.length === 0) {
+    return (
+      <p
+        className={styles["no-list"]}
+        style={{
+          background: darkMode ? "black" : "#f4f4f4",
+          color: darkMode ? "white" : "black",
+          border: `1px solid ${darkMode ? "white" : "none"}`,
+        }}
+      >
+        오늘 할일은 무엇인가요?
+      </p>
+    );
+  }
+
   return (
     <div>
-      {todoList.length === 0 ? (
-        <p className={styles["no-list"]}>오늘 할일은 무엇인가요?</p>
-      ) : (
-        <ul className={styles["todo-list"]}>
-          {todoList.map((todo, idx) => {
-            return (
-              <li className={styles["todo-item"]} key={`todo-${idx}`}>
-                <div>
-                  <input
-                    type="checkbox"
-                    name="update-todo"
-                    id="update-todo"
-                    checked={todo.isCompleted}
-                    onChange={() => updateTodo(idx)}
-                  />
-                  {todo.isCompleted ? (
-                    <label htmlFor="update-todo">
-                      <s>{todo.content}</s>
-                    </label>
-                  ) : (
-                    <label htmlFor="update-todo">{todo.content}</label>
-                  )}
-                </div>
-                <BsTrash2 onClick={() => deleteTodo(idx)} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <ul className={styles["todo-list"]}>
+        {todoList.map((todo, idx) => {
+          return (
+            <EachTodo
+              key={todo.id + idx}
+              todo={todo}
+              updateTodo={updateTodo}
+              deleteTodo={deleteTodo}
+            />
+          );
+        })}
+      </ul>
     </div>
   );
 }

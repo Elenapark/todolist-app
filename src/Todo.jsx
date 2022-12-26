@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import AddTodo from "./components/AddTodo";
 import Darkmode from "./components/Darkmode";
 import Filter from "./components/Filter";
 import styles from "./Todo.module.css";
-
 import TodoList from "./components/TodoList";
+import { ThemeContext } from "./context/darkmode_context";
 
 export default function Todo() {
+  const { darkMode } = useContext(ThemeContext);
   const [todoList, setTodoList] = useState([]);
   const [todoInput, setTodoInput] = useState("");
-  const [isDark, setIsDark] = useState(false);
+  const [tab, setTab] = useState("All");
 
   const handleInputChange = (e) => {
     setTodoInput(e.target.value);
   };
 
   const addTodo = (e) => {
-    if (!todoInput) return;
-
     e.preventDefault();
+
+    if (!todoInput) return;
     const newTodo = {
+      id: uuidv4(),
       content: todoInput,
       isCompleted: false,
     };
     setTodoList([...todoList, newTodo]);
     setTodoInput("");
-    console.log(todoList);
   };
 
   const updateTodo = (id) => {
     setTodoList(
-      todoList.map((todo, idx) => {
-        if (idx === id) {
+      todoList.map((todo) => {
+        if (todo.id === id) {
           return { ...todo, isCompleted: !todo.isCompleted };
         }
         return todo;
@@ -40,7 +42,7 @@ export default function Todo() {
   };
 
   const deleteTodo = (id) => {
-    setTodoList(todoList.filter((_, idx) => idx !== id));
+    setTodoList(todoList.filter((todo) => todo.id !== id));
   };
 
   useEffect(() => {
@@ -48,12 +50,14 @@ export default function Todo() {
   }, [todoList]);
 
   return (
-    <main className={styles["todo-container"]}>
-      {/* navbar */}
-      <div className={styles.navbar}>
-        <Darkmode isDark={isDark} setIsDark={setIsDark} />
-        <Filter />
-      </div>
+    <main
+      className={styles["todo-container"]}
+      style={{ background: darkMode ? "black" : "white" }}
+    >
+      <header className={styles.navbar}>
+        <Darkmode />
+        <Filter tab={tab} setTab={setTab} />
+      </header>
 
       <TodoList
         todoList={todoList}
