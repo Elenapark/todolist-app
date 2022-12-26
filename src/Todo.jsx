@@ -6,8 +6,17 @@ import Filter from "./components/Filter";
 import styles from "./Todo.module.css";
 import TodoList from "./components/TodoList";
 import { ThemeContext } from "./context/darkmode_context";
+import customStorage from "./utils/customStorage";
+
+const TODO_LIST_KEY = "todolist";
 
 export default function Todo() {
+  const storageData = customStorage.getItem(TODO_LIST_KEY, {
+    onError: () => {
+      alert("저장된 데이터에 문제가 생겨 기본 데이터로 설정합니다.");
+    },
+    defalutValue: [],
+  });
   const { darkMode } = useContext(ThemeContext);
   const [todoList, setTodoList] = useState([]);
   const [todoInput, setTodoInput] = useState("");
@@ -46,8 +55,14 @@ export default function Todo() {
   };
 
   useEffect(() => {
-    console.log(todoList);
+    customStorage.setItem(TODO_LIST_KEY, todoList);
   }, [todoList]);
+
+  useEffect(() => {
+    if (storageData) {
+      setTodoList(storageData);
+    }
+  }, []);
 
   return (
     <main
