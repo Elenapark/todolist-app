@@ -1,10 +1,11 @@
-import "./App.css";
-import TodoList from "./TodoList";
+import React from "react";
+import styles from "./App.module.css";
+import Todo from "./Todo";
 
 function App() {
   return (
-    <div className="App">
-      <TodoList />
+    <div className={styles.background}>
+      <Todo />
     </div>
   );
 }

@@ -1,0 +1,10 @@
+.nav-item {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.list-item {
+  margin-right: 1rem;
+  font-weight: bold;
+}
