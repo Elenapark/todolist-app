@@ -7,7 +7,7 @@ const customStorage = {
       }
       return null;
     } catch (err) {
-      console.wran(`로컬스토리지 데이터 불러오기에 문제가 생겼습니다. ${err}`);
+      console.warn(`로컬스토리지 데이터 불러오기에 문제가 생겼습니다. ${err}`);
       if (options.onError) {
         options.onError();
       }
@@ -18,7 +18,7 @@ const customStorage = {
     try {
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (err) {
-      console.wran(`로컬스토리지 데이터 저장에 문제가 생겼습니다. ${err}`);
+      console.warn(`로컬스토리지 데이터 저장에 문제가 생겼습니다. ${err}`);
       if (options.onError) {
         options.onError();
       }

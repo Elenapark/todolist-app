@@ -2,26 +2,26 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../context/darkmode_context";
 import styles from "./Filter.module.css";
 
-const TABS = ["All", "Active", "Completed"];
-
-export default function Filter({ tab, setTab }) {
+export default function Filter({ tabs, tab, setTab }) {
   const { darkMode } = useContext(ThemeContext);
-  const handleTab = (idx) => {
-    setTab(TABS[idx]);
-  };
+
   return (
     <ul
       className={styles["nav-item"]}
       style={{ background: darkMode ? "black" : "white" }}
     >
-      {TABS.map((tab, idx) => (
+      {tabs.map((el, idx) => (
         <li
           className={styles["list-item"]}
-          key={tab + idx}
-          style={{ color: darkMode ? "white" : "black" }}
-          onClick={() => handleTab(idx)}
+          key={el + idx}
+          style={{
+            color: darkMode ? "white" : "black",
+            borderBottom:
+              tab === el ? "3px solid orange" : "3px solid transparent",
+          }}
+          onClick={() => setTab(el)}
         >
-          {tab}
+          {el}
         </li>
       ))}
     </ul>

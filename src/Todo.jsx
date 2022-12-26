@@ -9,6 +9,7 @@ import { ThemeContext } from "./context/darkmode_context";
 import customStorage from "./utils/customStorage";
 
 const TODO_LIST_KEY = "todolist";
+const TABS = ["All", "Active", "Completed"];
 
 export default function Todo() {
   const storageData = customStorage.getItem(TODO_LIST_KEY, {
@@ -71,10 +72,11 @@ export default function Todo() {
     >
       <header className={styles.navbar}>
         <Darkmode />
-        <Filter tab={tab} setTab={setTab} />
+        <Filter tabs={TABS} tab={tab} setTab={setTab} />
       </header>
 
       <TodoList
+        tab={tab}
         todoList={todoList}
         updateTodo={updateTodo}
         deleteTodo={deleteTodo}

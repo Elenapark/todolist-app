@@ -28,8 +28,9 @@ export default function EachTodo({ todo, updateTodo, deleteTodo }) {
           {todo.isCompleted ? <s>{todo.content}</s> : <>{todo.content}</>}
         </label>
       </div>
-
-      <BsTrash2 onClick={() => deleteTodo(todo.id)} />
+      <div>
+        <BsTrash2 onClick={() => deleteTodo(todo.id)} />
+      </div>
     </li>
   );
 }

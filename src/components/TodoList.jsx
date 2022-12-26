@@ -3,7 +3,7 @@ import styles from "./TodoList.module.css";
 import { ThemeContext } from "../context/darkmode_context";
 import EachTodo from "./EachTodo";
 
-export default function TodoList({ todoList, updateTodo, deleteTodo }) {
+export default function TodoList({ tab, todoList, updateTodo, deleteTodo }) {
   const { darkMode } = useContext(ThemeContext);
 
   if (todoList.length === 0) {
@@ -13,7 +13,6 @@ export default function TodoList({ todoList, updateTodo, deleteTodo }) {
         style={{
           background: darkMode ? "black" : "#f4f4f4",
           color: darkMode ? "white" : "black",
-          border: `1px solid ${darkMode ? "white" : "none"}`,
         }}
       >
         오늘 할일은 무엇인가요?
@@ -21,10 +20,12 @@ export default function TodoList({ todoList, updateTodo, deleteTodo }) {
     );
   }
 
+  const filteredItems = getFilteredItems(todoList, tab);
+
   return (
     <div>
       <ul className={styles["todo-list"]}>
-        {todoList.map((todo, idx) => {
+        {filteredItems.map((todo, idx) => {
           return (
             <EachTodo
               key={todo.id + idx}
@@ -38,3 +39,12 @@ export default function TodoList({ todoList, updateTodo, deleteTodo }) {
     </div>
   );
 }
+
+const getFilteredItems = (todos, tab) => {
+  if (tab === "All") {
+    return todos;
+  } else if (tab === "Active") {
+    return todos.filter((todo) => !todo.isCompleted);
+  }
+  return todos.filter((todo) => todo.isCompleted);
+};
